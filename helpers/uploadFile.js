@@ -1,7 +1,11 @@
 const multer = require('multer');
+const fs = require('fs');
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'images');
+    // console.log(req.query.documentId);
+    const path = `images/${req.query.documentId}`;
+    fs.mkdirSync(path, { recursive: true });
+    cb(null, path);
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);

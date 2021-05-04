@@ -37,14 +37,28 @@ exports.createAsset = async (req, res, next) => {
 };
 exports.deleteAsset = async (req, res, next) => {
   const value = req.body.value;
-  fs.unlink(value, (err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(`Deleted file: ${value}`);
-  });
+  // console.log(value);
+
   try {
+    fs.unlink(value, (err) => {
+      if (err) {
+        console.error(err);
+      }
+      // console.log(`Deleted file: ${value}`);
+      const directory = value.split('\\')[0];
+      fs.readdir(directory, (err, files) => {
+        if (err) {
+          console.error(err);
+        }
+        // console.log(files);
+        if (files.length === 0) {
+          fs.rmdir(directory, () => {
+            // console.log('Deleted directory: ' + directory);
+          });
+        }
+      });
+    });
+
     await Asset.deleteOne({
       value,
     });
