@@ -1,6 +1,6 @@
 const createHttpError = require('http-errors');
 const fs = require('fs');
-const Asset = require('../models/Asset');
+const Asset = require('../models/Asset.model');
 exports.getAsset = async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -51,7 +51,7 @@ exports.deleteAsset = async (req, res, next) => {
           console.error(err);
         }
         // console.log(files);
-        if (files.length === 0) {
+        if (files && files.length === 0) {
           fs.rmdir(directory, () => {
             // console.log('Deleted directory: ' + directory);
           });

@@ -1,4 +1,4 @@
-const Document = require('../models/Document');
+const Document = require('../models/Document.model');
 module.exports = (server) => {
   const io = require('socket.io')(server, {
     cors: {
